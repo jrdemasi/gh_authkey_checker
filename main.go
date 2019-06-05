@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net"
 	"net/http"
 	"os"
-	"time"
 )
 
 func parseArgs() string {
@@ -65,29 +63,8 @@ func checkUsername(username string) {
 	return
 }
 
-// Need to fix this to not be an infinite loop
-func checkResolvers() {
-	i := 1
-	for i < 3 {
-		log.Println("Checking if DNS is working")
-		_, err := net.LookupIP("github.com")
-		if err != nil {
-			log.Println("No DNS yet, trying again in 5s")
-			time.Sleep(5 * time.Second)
-			i += 1
-		} else {
-			break
-		}
-	}
-	if i == 3 {
-		log.Fatalln("Could not reliably lookup host github.com")
-	}
-	return
-}
-
 func main() {
 	username := parseArgs()
-	checkResolvers()
 	checkUsername(username)
 	keys := fetchKeys(username)
 	fmt.Print(keys)
