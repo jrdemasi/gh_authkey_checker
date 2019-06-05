@@ -18,11 +18,11 @@ func parseArgs() string {
 
 	// We have one arg possible comma separated
 	if len(os.Args) == 2 {
-		return (os.Args[1])
+		return os.Args[1]
 	} else {
 		log.Fatalln("You have provided too many arguments")
 	}
-	return ("")
+	return ""
 }
 
 func fetchKeys(username string) string {
@@ -42,9 +42,9 @@ func fetchKeys(username string) string {
 			log.Fatal(err)
 		}
 		bodyString := string(bodyBytes)
-		return (bodyString)
+		return bodyString
 	}
-	return ("")
+	return ""
 }
 
 // Need to fix this to not be an infinite loop
