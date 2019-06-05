@@ -9,5 +9,7 @@ Per FHS, this most likely belongs in `/opt`, but I'm sticking it in `/usr/local/
 
 ## Configuration
 This utility is only tested on Arch and CentOS 7 at this point.  Uncomment/add/modify the following lines in `/etc/ssh/sshd_config`:
+```    
     AuthorizedKeysCommand /usr/local/sbin/gh_authkey_checker
     AuthorizedKeysCommandUser root
+```
