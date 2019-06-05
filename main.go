@@ -7,6 +7,7 @@ import (
     "os"
     "net/http"
     "io/ioutil"
+    "time"
 )
 
 func parseArgs() string {
@@ -48,10 +49,13 @@ func fetchKeys(username string) string {
 
 // Need to fix this to not be an infinite loop
 func checkResolvers() {
-	for {
+    i := 0
+	for i < 3 {
 		_, err := net.LookupIP("github.com")
 		if err != nil {
-			log.Println("No DNS yet...")
+			log.Println("No DNS yet, trying again in 5s")
+            time.Sleep(5 * time.Second)
+            i += 1
 		} else {
 			break
 		}
@@ -62,7 +66,6 @@ func checkResolvers() {
 func main() {
     username := parseArgs()
 	checkResolvers()
-    //fmt.Println(username)
     keys := fetchKeys(username)
     fmt.Print(keys)
     return
