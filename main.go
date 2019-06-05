@@ -17,7 +17,7 @@ func parseArgs() string {
 	}
 
 	// We have one arg possible comma separated
-	if len(os.Args) == 2 {
+	if len(os.Args) >= 2 {
 		return (os.Args[1])
 	} else {
 		log.Fatalln("You have provided too many arguments")
