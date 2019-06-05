@@ -8,7 +8,7 @@ Simply clone the repository and use `go build -o gh_authkey_checker main.go` to 
 Per FHS, this most likely belongs in `/opt`, but I'm sticking it in `/usr/local/sbin` to minimize configuration (again, on testing and short deployment cloud instances).  Simply copy the binary you built or downloaded in `/usr/local/sbin`, then `chmod root:root /usr/local/sbin/gh_authkey_checker`.  Lastly, make sure that only root can execute, `chmod 700 /usr/local/sbin/gh_authkey_checker`.
 
 ## Configuration
-This utility is only tested on Arch and CentOS 7 at this point.  Uncomment/add/modify the following lines in `/etc/ssh/sshd_config`:
+This utility is only tested on Arch and CentOS 7 at this point, but should work fine on Debian and Ubuntu as well.  Uncomment/add/modify the following lines in `/etc/ssh/sshd_config`:
 ```    
 AuthorizedKeysCommand /usr/local/sbin/gh_authkey_checker
 AuthorizedKeysCommandUser root
