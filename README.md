@@ -13,3 +13,4 @@ This utility is only tested on Arch and CentOS 7 at this point.  Uncomment/add/m
 AuthorizedKeysCommand /usr/local/sbin/gh_authkey_checker
 AuthorizedKeysCommandUser root
 ```
+then restart sshd `systemctl restart sshd`.
