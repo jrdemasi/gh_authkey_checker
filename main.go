@@ -1,13 +1,13 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "net"
-    "os"
-    "net/http"
-    "io/ioutil"
-    "time"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net"
+	"net/http"
+	"os"
+	"time"
 )
 
 func parseArgs() string {
@@ -18,11 +18,11 @@ func parseArgs() string {
 
 	// We have one arg possible comma separated
 	if len(os.Args) == 2 {
-		return(os.Args[1])
+		return (os.Args[1])
 	} else {
-        log.Fatalln("You have provided too many arguments")
-    }
-    return("")
+		log.Fatalln("You have provided too many arguments")
+	}
+	return ("")
 }
 
 func fetchKeys(username string) string {
@@ -36,40 +36,40 @@ func fetchKeys(username string) string {
 
 	defer resp.Body.Close()
 
-    if resp.StatusCode == http.StatusOK {
-        bodyBytes, err := ioutil.ReadAll(resp.Body)
-        if err != nil {
-            log.Fatal(err)
-        }
-        bodyString := string(bodyBytes)
-        return(bodyString)
-    }
-    return("")
+	if resp.StatusCode == http.StatusOK {
+		bodyBytes, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		bodyString := string(bodyBytes)
+		return (bodyString)
+	}
+	return ("")
 }
 
 // Need to fix this to not be an infinite loop
 func checkResolvers() {
-    i := 1
+	i := 1
 	for i < 3 {
 		_, err := net.LookupIP("github.com")
 		if err != nil {
 			log.Println("No DNS yet, trying again in 5s")
-            time.Sleep(5 * time.Second)
-            i += 1
+			time.Sleep(5 * time.Second)
+			i += 1
 		} else {
 			break
 		}
 	}
-    if i == 3 {
-        log.Fatalln("Could not reliably lookup host github.com")
-    }
+	if i == 3 {
+		log.Fatalln("Could not reliably lookup host github.com")
+	}
 	return
 }
 
 func main() {
-    username := parseArgs()
+	username := parseArgs()
 	checkResolvers()
-    keys := fetchKeys(username)
-    fmt.Print(keys)
-    return
+	keys := fetchKeys(username)
+	fmt.Print(keys)
+	return
 }
