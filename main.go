@@ -39,7 +39,7 @@ func fetchKeys(username string) string {
 	if resp.StatusCode == http.StatusOK {
 		bodyBytes, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalln(err)
 		}
 		bodyString := string(bodyBytes)
 		return bodyString
@@ -47,10 +47,29 @@ func fetchKeys(username string) string {
 	return ""
 }
 
+func checkUsername(username string) {
+	log.Printf("Checking for GitHub user %s", username)
+
+	url := fmt.Sprintf("https://github.com/%s.keys", username)
+	response, err := http.Get(url)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if response.StatusCode != http.StatusOK {
+		log.Fatalf("%s is an invalid user", username)
+	}
+
+	log.Printf("Found valid user %s", username)
+
+	return
+}
+
 // Need to fix this to not be an infinite loop
 func checkResolvers() {
 	i := 1
 	for i < 3 {
+		log.Println("Checking if DNS is working")
 		_, err := net.LookupIP("github.com")
 		if err != nil {
 			log.Println("No DNS yet, trying again in 5s")
@@ -69,6 +88,7 @@ func checkResolvers() {
 func main() {
 	username := parseArgs()
 	checkResolvers()
+	checkUsername(username)
 	keys := fetchKeys(username)
 	fmt.Print(keys)
 	return
