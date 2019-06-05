@@ -14,3 +14,6 @@ AuthorizedKeysCommand /usr/local/sbin/gh_authkey_checker
 AuthorizedKeysCommandUser root
 ```
 then restart sshd `systemctl restart sshd`.
+
+### Contributions
+Special thanks to [amayer](https://github.com/amayer5125) for always critiquing my Go and being a smartass :-)
