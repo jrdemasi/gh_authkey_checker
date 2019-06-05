@@ -49,7 +49,7 @@ func fetchKeys(username string) string {
 
 // Need to fix this to not be an infinite loop
 func checkResolvers() {
-    i := 0
+    i := 1
 	for i < 3 {
 		_, err := net.LookupIP("github.com")
 		if err != nil {
@@ -60,6 +60,9 @@ func checkResolvers() {
 			break
 		}
 	}
+    if i == 3 {
+        log.Fatalln("Could not reliably lookup host github.com")
+    }
 	return
 }
 
