@@ -9,18 +9,12 @@ import (
 )
 
 func parseArgs() string {
-	// Check for at least one arg, bail if none
-	if len(os.Args) < 2 {
-		log.Fatalln("You must provide exactly one GitHub username.")
+	// We can only accept one argument
+	if len(os.Args) != 2 {
+		fmt.Println("Usage: gh_authkey_checker <username>")
+		os.Exit(1)
 	}
-
-	// We have one arg possible comma separated
-	if len(os.Args) == 2 {
-		return os.Args[1]
-	} else {
-		log.Fatalln("You have provided too many arguments")
-	}
-	return ""
+	return os.Args[1]
 }
 
 func fetchKeys(username string) string {
