@@ -25,6 +25,10 @@ func fetchKeys(username string) (string, error) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == http.StatusNotFound {
+		return "", fmt.Errorf("%s is an invalid user", username)
+	}
+
 	if resp.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("Expected http 200 but got %d instead", resp.StatusCode)
 	}
@@ -37,32 +41,11 @@ func fetchKeys(username string) (string, error) {
 	return string(bodyBytes), nil
 }
 
-func checkUsername(username string) error {
-	url := fmt.Sprintf("https://github.com/%s.keys", username)
-	response, err := http.Get(url)
-	if err != nil {
-		return err
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return fmt.Errorf("%s is an invalid user", username)
-	}
-
-	return nil
-}
-
 func main() {
 	username, err := parseArgs()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	log.Printf("Checking for GitHub user %s", username)
-	err = checkUsername(username)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Printf("Found valid user %s", username)
 
 	log.Printf("Fetching keys for user %s", username)
 	keys, err := fetchKeys(username)
