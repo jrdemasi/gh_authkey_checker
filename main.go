@@ -8,15 +8,6 @@ import (
 	"os"
 )
 
-func parseArgs() (string, error) {
-	// We can only accept one argument
-	if len(os.Args) != 2 {
-		return "", fmt.Errorf("Usage: gh_authkey_checker <username>")
-	}
-
-	return os.Args[1], nil
-}
-
 func fetchKeys(username string) (string, error) {
 	url := fmt.Sprintf("https://github.com/%s.keys", username)
 	resp, err := http.Get(url)
@@ -42,10 +33,13 @@ func fetchKeys(username string) (string, error) {
 }
 
 func main() {
-	username, err := parseArgs()
-	if err != nil {
-		log.Fatal(err)
+	// Ensure we have the correct number of arguments
+	if len(os.Args) != 2 {
+		fmt.Println("Usage: gh_authkey_checker <username>")
+		os.Exit(1)
 	}
+
+	username := os.Args[1]
 
 	log.Printf("Fetching keys for user %s", username)
 	keys, err := fetchKeys(username)
